@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Speech Detection</title>
+  <link href="main.css" rel="stylesheet">
 </head>
 <body>
       <div class="words" contenteditable>
@@ -10,109 +11,6 @@
       <div class="child">
           <button id="clear">Clear</button>
       </div>
-  
-<script>
-  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = new SpeechRecognition();
-  recognition.interimResults = true;
-  const clear = document.querySelector("#clear");
-  let p = document.createElement('p');
-  const words =  document.querySelector('.words');
-  words.appendChild(p);
-
-  recognition.addEventListener("result", (e) => {
-    const transcript = [...e.results]
-      .map(result => result[0])
-      .map(result => result.transcript)
-      .join('');
-      
-    let colors = ["red", 'yellow',"black", "grey", "pink", "green","blue","white", "purple","brown"]
-      colors.forEach(el => {
-        let regex = new RegExp(el , "i");
-        if(transcript.match(regex)){
-          words.style.setProperty('--background-color',el);
-        }
-      });
-
-
-      if(transcript.includes("clear all")){
-        words.innerHTML = "";
-      }
-      p.textContent = transcript;
-      if(e.results[0].isFinal){
-        p = document.createElement('p');
-        words.appendChild(p);
-      }
-    })
-
-  recognition.addEventListener("end", recognition.start)
-  recognition.start();
-  clear.addEventListener("click", (e) => words.innerHTML = "");
-</script>
-
-
-  <style>
-    :root{
-      --background-color:rgb(3, 3, 3);
-    }
-    html {
-      font-size: 10px;
-    }
-
-    body {
-      background:#f7e330;
-      font-family: 'helvetica neue';
-      font-weight: 200;
-      font-size: 20px;
-    }
-    .child{
-      display: flex;
-      justify-content: center;
-      flex-direction: row;
-      width:100%;
-    }
-    
-    #clear{
-      width: 180px;
-      padding: 20px;
-      font-size: 2rem;
-      border: none;
-      outline: none;
-      border-radius: 5px;
-      background: dodgerblue;
-      color: #fff;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .words {
-      max-width:500px;
-      margin:50px auto;
-      border-radius:5px;
-      box-shadow:10px 10px 0 rgba(0,0,0,0.1);
-      padding:1rem 2rem 1rem 5rem;
-      background-color: var(--background-color);
-      background-size: 100% 3rem;
-      position: relative;
-      color: rgb(255, 255, 255);
-      line-height:3rem;
-    }
-    p {
-      margin: 0 0 3rem;
-      font-size: 3.5rem;
-      font-weight: 700;
-    }
-
-    .words:before {
-      content: '';
-      position: absolute;
-      width: 4px;
-      top: 0;
-      left: 30px;
-      bottom: 0;
-      border: 1px solid;
-      border-color: transparent #efe4e4;
-    }
-  </style>
-
+      <script src="script.js"></script>
 </body>
 </html>
